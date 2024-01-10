@@ -123,7 +123,7 @@ jobs:
             --install --wait --atomic  ${{ env.repo_release }} \
             --timeout ${{ inputs.timeout-minutes }}m \
             --values ${{ inputs.values }} \
-            ./${{ github.event.repository.name }}-${{ inputs.tag }}.tgz
+            ./quickstart-openshift-${{ inputs.tag }}.tgz
 
           # print history 
           helm history ${{ env.repo_release }}
