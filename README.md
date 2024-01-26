@@ -397,7 +397,7 @@ After successfully running the helm job to configure the gateway, you can:
 4) Call your API with the token
 
 ```
-curl -v -H "Authorization: Bearer $TOK" https://aps-hello.dev.api.gov.bc.ca/api/v1/users
+curl -v -H "Authorization: Bearer $TOK" <env_host>/api/v1/users
 ```
 
 # Resources
