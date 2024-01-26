@@ -49,9 +49,9 @@ dependencies:
     repository: https://bcgov.github.io/helm-service
     alias: backup
 
-  - name: apigateway
+  - name: aps-gateway-ns
     condition: apigateway.enabled
-    version: 0.2.9
+    version: 1.0.0
     repository: https://bcgov.github.io/helm-charts
     alias: apigateway
 
