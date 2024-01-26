@@ -91,10 +91,10 @@ jobs:
         shell: bash
         run: |
           echo 'GWCONFIG<<EOF' >> $GITHUB_OUTPUT
-          echo '\
+          echo \
             --set apigateway.enabled=true \
             --set-file apigateway.config=../../.apigw/gw-config.yml \
-          ' >> "$GITHUB_OUTPUT"
+            '' >> "$GITHUB_OUTPUT"
           echo 'EOF' >> $GITHUB_OUTPUT        
           # --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
           # --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
@@ -113,5 +113,4 @@ jobs:
       release: ${{ needs.vars.outputs.pr }}
       triggers: ('backend/' 'frontend/' 'migrations/' 'charts/')
       params: |
-        --set a=3
         ${{ needs.apigateway.outputs.extra_params }}
