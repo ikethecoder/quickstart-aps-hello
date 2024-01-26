@@ -112,5 +112,5 @@ jobs:
       tag: ${{ needs.vars.outputs.pr }}
       release: ${{ needs.vars.outputs.pr }}
       triggers: ('backend/' 'frontend/' 'migrations/' 'charts/')
-      params: ${{needs.apigw.outputs.extra_params}}
+      params: ${{needs.apigateway.outputs.extra_params}}
       
