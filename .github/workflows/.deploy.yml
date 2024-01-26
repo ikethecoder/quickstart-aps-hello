@@ -63,7 +63,7 @@ env:
     --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
     --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
     --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
-      
+
 jobs:
   deploys:
     name: Helm
