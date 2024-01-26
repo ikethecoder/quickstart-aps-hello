@@ -354,7 +354,7 @@ gwa generate-config
 
 | Field | Description |
 | --- | ---- |
-| Service | A unique name of your API where it will become https://<MYSERVICE>.dev.api.gov.bc.ca |
+| Service | A unique name of your API where it will become `https://<MY_SERVICE>.dev.api.gov.bc.ca` |
 | Template | `client-credentials-shared-idp` |
 | Upstream (URL) | Your service URL (for example: `http://<MY_SERVICE>.<MY_OCP_PROJECT>.svc:80`) |
 | Organization | Choose an organization from https://api.gov.bc.ca/ds/api/v2/organizations and set this to the org `name` |

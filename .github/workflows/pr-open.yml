@@ -93,7 +93,7 @@ jobs:
       tag: ${{ needs.vars.outputs.pr }}
       release: ${{ needs.vars.outputs.pr }}
       triggers: ('backend/' 'frontend/' 'migrations/' 'charts/')
-      params: |-
+      params: |
         --set apigateway.enabled=true
         --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }}
         --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }}
