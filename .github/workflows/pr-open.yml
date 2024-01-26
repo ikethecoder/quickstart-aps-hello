@@ -113,4 +113,6 @@ jobs:
       release: ${{ needs.vars.outputs.pr }}
       triggers: ('backend/' 'frontend/' 'migrations/' 'charts/')
       params: |
-        ${{ needs.apigateway.outputs.extra_params }}
+        --set apigateway.enabled=true \
+        --set-file apigateway.config=../../.apigw/gw-config.yml \
+      # ${{ needs.apigateway.outputs.extra_params }}
