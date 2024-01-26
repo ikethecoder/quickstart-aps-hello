@@ -82,7 +82,7 @@ jobs:
           triggers: ('${{ matrix.package }}/')
 
   apigateway:
-    name: apigw
+    name: API Gateway
     runs-on: ubuntu-latest
     outputs:
       extra_params: ${{ steps.step.outputs.params }}
@@ -101,7 +101,7 @@ jobs:
   # https://github.com/bcgov-nr/action-deployer-openshift
   deploys:
     name: Deploys
-    needs: [builds, vars, apigw]
+    needs: [builds, vars, apigateway]
     uses: ./.github/workflows/.deploy.yml
     secrets: inherit
     with:
