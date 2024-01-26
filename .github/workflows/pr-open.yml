@@ -94,11 +94,11 @@ jobs:
           echo \
             --set apigateway.enabled=true \
             --set-file apigateway.config=../../.apigw/gw-config.yml \
-            '' >> "$GITHUB_OUTPUT"
-          echo 'EOF' >> $GITHUB_OUTPUT        
-          # --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
-          # --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
-          # --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
+            --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
+            --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
+            --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
+          >> "$GITHUB_OUTPUT"
+          echo 'EOF' >> $GITHUB_OUTPUT
 
   # https://github.com/bcgov-nr/action-deployer-openshift
   deploys:
