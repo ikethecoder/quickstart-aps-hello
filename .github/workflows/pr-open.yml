@@ -85,11 +85,12 @@ jobs:
     name: API Gateway
     runs-on: ubuntu-latest
     outputs:
-      extra_params: ${{ steps.step.outputs.params }}
+      extra_params: ${{ steps.step.outputs.GWCONFIG }}
     steps:
       - id: step
         shell: bash
         run: |
+          echo 'GWCONFIG<<EOF' >> $GITHUB_OUTPUT
           echo '
             --set apigateway.enabled=true
             --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }}
@@ -97,6 +98,7 @@ jobs:
             --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }}
             --set-file apigateway.config=../../.apigw/gw-config.yml
           ' >> "$GITHUB_OUTPUT"
+          echo 'EOF' >> $GITHUB_OUTPUT        
 
   # https://github.com/bcgov-nr/action-deployer-openshift
   deploys:
