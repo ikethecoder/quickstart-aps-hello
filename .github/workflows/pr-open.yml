@@ -83,6 +83,7 @@ jobs:
 
   apigateway:
     name: apigw
+    runs-on: ubuntu-latest
     outputs:
       extra_params: ${{ steps.step.outputs.params }}
     steps:
