@@ -48,6 +48,13 @@ dependencies:
     version: 0.2.3
     repository: https://bcgov.github.io/helm-service
     alias: backup
+
+  - name: apigateway
+    condition: apigateway.enabled
+    version: 0.2.9
+    repository: https://bcgov.github.io/helm-charts
+    alias: apigateway
+
 maintainers:
   - name: Om Mishra
     email: omprakash.2.mishra@gov.bc.ca
