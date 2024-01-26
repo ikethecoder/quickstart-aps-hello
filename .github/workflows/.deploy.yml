@@ -54,6 +54,7 @@ on:
 env:
   repo_release: ${{ github.event.repository.name }}-${{ inputs.release }}
   package_tag: ${{ inputs.tag }}
+  gw_config: --set apigateway.enabled=true --set-file apigateway.config=../../.apigw/gw-config.yml --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }}
 
 jobs:
   deploys:
@@ -119,7 +120,7 @@ jobs:
             --set-string backend.containers[0].tag="${{ env.package_tag }}" \
             --set-string backend.initContainers[0].tag="${{ env.package_tag }}" \
             --set-string frontend.containers[0].tag="${{ env.package_tag }}" \
-            ${{ inputs.params }} \
+            ${{ env.gw_config }} \
             --install --wait --atomic  ${{ env.repo_release }} \
             --timeout ${{ inputs.timeout-minutes }}m \
             --values ${{ inputs.values }} \
