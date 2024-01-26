@@ -57,8 +57,8 @@ env:
   GWCONFIG: |
     --set apigateway.enabled=true \
     --set apigateway.networkPolicy.namespaces={${{ vars.OC_NAMESPACE }}} \
-    --set apigateway.networkPolicy.matchLabels."app.kubernetes.io/instance"=${{ github.event.repository.name }}-${{ inputs.release }} \
-    --set apigateway.networkPolicy.matchLabels."app.kubernetes.io/name"=backend \
+    --set apigateway.networkPolicy.matchLabels."app\.kubernetes\.io/instance"=${{ github.event.repository.name }}-${{ inputs.release }} \
+    --set apigateway.networkPolicy.matchLabels."app\.kubernetes\.io/name"=backend \
     --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
     --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
     --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
