@@ -5,7 +5,7 @@ displayName: gw-c897f Display Name
 kind: GatewayService
 name: aps-hello-dev
 tags: [ns.gw-c897f]
-host: quickstart-aps-hello-1-backend
+host: quickstart-aps-hello-1-backend.264e6f-dev.svc
 port: 80
 protocol: http
 retries: 0
