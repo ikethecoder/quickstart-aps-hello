@@ -56,13 +56,13 @@ env:
   package_tag: ${{ inputs.tag }}
   GWCONFIG: |
     --set apigateway.enabled=true \
-    --set networkPolicy.namespaces={264e6f-dev} \
-    --set networkPolicy.matchLabels."app.kubernetes.io/instance"=quickstart-aps-hello-1 \
-    --set networkPolicy.matchLabels."app.kubernetes.io/name"=backend \
-    --set-file apigateway.config=../../.apigw/gw-config.yml \
+    --set apigateway.networkPolicy.namespaces={${{ vars.OC_NAMESPACE }}} \
+    --set apigateway.networkPolicy.matchLabels."app.kubernetes.io/instance"=${{ github.event.repository.name }}-${{ inputs.release }} \
+    --set apigateway.networkPolicy.matchLabels."app.kubernetes.io/name"=backend \
     --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
     --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
     --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
+    --set-file apigateway.config=../../.apigw/gw-config.yml \
 
 jobs:
   deploys:
