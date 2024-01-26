@@ -1,0 +1,99 @@
+kind: Namespace
+name: gw-c897f
+displayName: gw-c897f Display Name
+---
+kind: GatewayService
+name: aps-hello-dev
+tags: [ns.gw-c897f]
+host: httpbin.org
+port: 443
+protocol: https
+retries: 0
+routes:
+  - name: aps-hello-dev
+    tags: [ns.gw-c897f]
+    hosts:
+      - aps-hello.dev.api.gov.bc.ca
+    methods:
+      - GET
+    strip_path: false
+    https_redirect_status_code: 426
+    path_handling: v0
+    request_buffering: true
+    response_buffering: true
+plugins:
+  - name: jwt-keycloak
+    tags: [ns.gw-c897f]
+    enabled: true
+    config:
+      allowed_iss:
+      - https://dev.loginproxy.gov.bc.ca/auth/realms/apigw
+      allowed_aud: ap-gw-c897f-default-dev
+      run_on_preflight: true
+      iss_key_grace_period: 10
+      maximum_expiration: 0
+      algorithm: RS256
+      claims_to_verify:
+      - exp
+      uri_param_names:
+      - jwt
+      cookie_names: []
+      scope: null
+      roles: null
+      realm_roles: null
+      client_roles: null
+      anonymous: null
+      consumer_match: true
+      consumer_match_claim: azp
+      consumer_match_claim_custom_id: true
+      consumer_match_ignore_not_found: false
+  - name: request-transformer
+    tags: [ns.gw-c897f]
+    enabled: true
+    config:
+      http_method: null
+---
+kind: CredentialIssuer
+name: gw-c897f default
+description: Default Authorization Profile for gw-c897f Gateway
+flow: client-credentials
+mode: auto
+authPlugin: jwt-keycloak
+clientAuthenticator: client-secret
+clientRoles: []
+inheritFrom: Gold Shared IdP
+---
+kind: DraftDataset
+name: aps-hello-dataset
+title: aps-hello
+organization: ministry-of-attorney-general
+organizationUnit: policy-and-legislation
+notes: Some information about the aps-hello service
+tags: [aps-hello, openapi]
+license_title: Access Only
+view_audience: Government
+security_class: LOW-PUBLIC
+record_publish_date: '2021-05-27'
+---
+kind: Product
+appId: '936D2EB493C9'
+name: aps-hello API
+dataset: aps-hello-dataset
+environments:
+  - name: dev
+    appId: 'B0929D25'
+    active: false
+    approval: false
+    flow: client-credentials
+    credentialIssuer: gw-c897f default
+    services: [aps-hello-dev]
+# ---
+# kind: ProductEnvironment
+# name: dev
+# product: aps-hello API
+# appId: 'D075144F'
+# active: false
+# approval: true
+# flow: client-credentials
+# credentialIssuer: gw-c897f default
+# services: [aps-hello-dev]

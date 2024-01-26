@@ -328,6 +328,63 @@ After a full workflow run and merge can been run, please do the following:
 
 ![img.png](.graphics/schemaspy.png)
 
+## BC Government API Gateway Integration
+
+**Pre-requisites:**
+
+- The `gwa` CLI (command line interface). You can download the latest version for your operating system from https://github.com/bcgov/gwa-cli/releases/latest
+
+**Steps:**
+
+Run `gwa login` with your IDIR credentials
+
+Run `gwa namespace create -g` and make a note of the name of the new namespace creeted.
+
+The `generate-config` command can be used to setup a typical use case that includes:
+
+- a vanity URL with SSL
+- protected using the Common Single Signon (CSS) Keycloak Identity Provider using Oauth2 Client Credential Grant
+- a draft product on our API Directory where people interested in your API can request access
+
+Create a folder `.apigw` and run the following command under it:
+
+```sh
+gwa generate-config
+```
+
+| Field | Description |
+| --- | ---- |
+| Service | A unique name of your API where it will become https://<MYSERVICE>.dev.api.gov.bc.ca |
+| Template | `client-credentials-shared-idp` |
+| Upstream (URL) | Your service URL (for example: `http://<MY_SERVICE>.<MY_OCP_PROJECT>.svc:80`) |
+| Organization | Choose an organization from https://api.gov.bc.ca/ds/api/v2/organizations and set this to the org `name` |
+| Org Unit | Choose an org unit from https://api.gov.bc.ca/ds/api/v2/console/#/Organizations/organization-units using the org you selected above |
+| Filename | gw-config.yml |
+
+This will produce a file `gw-config.yml` that includes resources for the Kong Gateway, the API Directory (DraftDataset and Product) and integrating to the CSS Keycloak Identity Provider (CredentialIssuer).
+
+To update configuration, you must create a Service Account (SA) that has `Namespace.Manage`, `CredentialIssuer.Admin` and `GatewayConfig.Publish` permissions for the namespace that you created above. Go to https://api.gov.bc.ca/manager/namespaces , select your new namespace and go to `Service Accounts` to create the new SA.
+
+### Variable Values
+
+> Click Settings > Secrets and Variables > Actions > Variables > New repository variable
+
+**GWA_NAMESPACE**
+
+API Gateway namespace.  Created from the command above.
+
+* Consume: `{{ vars.GWA_NAMESPACE }}`
+* Value: format `abc123`
+
+**GWA_CLIENT_ID**
+
+API Gateway Service Account ID.
+
+**GWA_CLIENT_SECRET**
+
+API Gateway Service Account Secret.
+
+
 # Resources
 
 This repository is provided by NRIDS Architecture and Forestry Digital Services, courtesy of the Government of British Columbia.
