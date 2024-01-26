@@ -63,13 +63,6 @@ env:
     --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
     --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
     --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
-
-    namespaces: []
-    #ports: [ 80, 8080 ]
-    matchLabels:
-      {}
-      # name: my-upstream-api
-
       
 jobs:
   deploys:

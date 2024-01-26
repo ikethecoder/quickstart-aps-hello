@@ -384,6 +384,21 @@ API Gateway Service Account ID.
 
 API Gateway Service Account Secret.
 
+### Try out your API
+
+After successfully running the helm job to configure the gateway, you can:
+
+1) Get the new API endpoint by running: `gwa status --json | jq ".[0].env_host"`
+
+2) Request credentials to access by going to https://api.gov.bc.ca/devportal/api-directory/your-products and following the steps to request access
+
+3) After requesting access, get a token using the new credentials
+
+4) Call your API with the token
+
+```
+curl -v -H "Authorization: Bearer $TOK" https://aps-hello.dev.api.gov.bc.ca/api/v1/users
+```
 
 # Resources
 
