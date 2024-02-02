@@ -565,30 +565,3 @@ backup:
         requests:
           cpu: 20m
           memory: 128Mi
-
-apigateway:
-  # -- enable or disable the setup of BC Govs Enterprise API Gateway
-  enabled: false
-
-  networkPolicy:
-    create: true
-    namespaces: []
-    #ports: [ 80, 8080 ]
-    matchLabels:
-      {}
-      # name: my-upstream-api
-  
-  env:
-    NAMESPACE:
-      value: ""
-      secure: true
-    CLIENT_ID:
-      value: ""
-      secure: true
-    CLIENT_SECRET:
-      value: ""
-      secure: true
-    GWA_HOST:
-      value: "api.gov.bc.ca" # test/training: api-gov-bc-ca.test.api.gov.bc.ca
-      secure: true
-      

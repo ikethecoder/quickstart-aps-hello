@@ -140,3 +140,27 @@ jobs:
           
           # Remove old build runs, build pods and deployment pods
           # oc delete po --field-selector=status.phase==Succeeded
+
+      - name: Deploy to API Gateway
+        if: ${{ steps.triggers.outputs.triggered == 'true' }}
+        uses: bcgov/action-deployer-api-gateway@main
+        with:
+          ### Required
+        
+          # Namespace of the API
+          namespace: ${{ secrets.GWA_NAMESPACE }} 
+          
+          # API Client ID
+          client_id: ${{ secrets.GWA_CLIENT_ID }}
+          
+          # API Client Secret
+          client_secret: ${{ secrets.GWA_CLIENT_SECRET }}
+          
+          # API Configuration File
+          file: .apigw/gw-config.yml
+      
+          ### Typical / recommended
+      
+          # Use production environment
+          # By default, set as true
+          # production: Set the environment to be used as the production environment
