@@ -54,6 +54,15 @@ on:
 env:
   repo_release: ${{ github.event.repository.name }}-${{ inputs.release }}
   package_tag: ${{ inputs.tag }}
+  GWCONFIG: |
+    --set apigateway.enabled=true \
+    --set apigateway.networkPolicy.namespaces={${{ vars.OC_NAMESPACE }}} \
+    --set apigateway.networkPolicy.matchLabels."app\.kubernetes\.io/instance"=${{ github.event.repository.name }}-${{ inputs.release }} \
+    --set apigateway.networkPolicy.matchLabels."app\.kubernetes\.io/name"=backend \
+    --set apigateway.env.NAMESPACE.value=${{ secrets.GWA_NAMESPACE }} \
+    --set apigateway.env.CLIENT_ID.value=${{ secrets.GWA_CLIENT_ID }} \
+    --set apigateway.env.CLIENT_SECRET.value=${{ secrets.GWA_CLIENT_SECRET }} \
+    --set-file apigateway.config=../../.apigw/gw-config.yml \
 
 jobs:
   deploys:
@@ -119,14 +128,46 @@ jobs:
             --set-string backend.containers[0].tag="${{ env.package_tag }}" \
             --set-string backend.initContainers[0].tag="${{ env.package_tag }}" \
             --set-string frontend.containers[0].tag="${{ env.package_tag }}" \
+            ${{ env.GWCONFIG }} \
             ${{ inputs.params }} \
             --install --wait --atomic  ${{ env.repo_release }} \
             --timeout ${{ inputs.timeout-minutes }}m \
             --values ${{ inputs.values }} \
-            ./${{ github.event.repository.name }}-${{ inputs.tag }}.tgz
+            ./quickstart-openshift-${{ inputs.tag }}.tgz
 
           # print history 
           helm history ${{ env.repo_release }}
           
           # Remove old build runs, build pods and deployment pods
-          oc delete po --field-selector=status.phase==Succeeded
+          # oc delete po --field-selector=status.phase==Succeeded
+
+  apigw:
+    name: API Gateway
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure API Gateway
+        # if: ${{ steps.triggers.outputs.triggered == 'true' }}
+        uses: bcgov/action-deployer-api-gateway@initial-version
+        with:
+          ### Required
+        
+          # Namespace of the API
+          namespace: ${{ secrets.GWA_NAMESPACE }} 
+          
+          # API Client ID
+          client_id: ${{ secrets.GWA_CLIENT_ID }}
+          
+          # API Client Secret
+          client_secret: ${{ secrets.GWA_CLIENT_SECRET }}
+          
+          # API Configuration File
+          file: .apigw/gw-config.yml
+      
+          ### Typical / recommended
+      
+          # Use production environment
+          # By default, set as true
+          # production: Set the environment to be used as the production environment
